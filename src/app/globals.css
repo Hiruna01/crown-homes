@@ -1,0 +1,188 @@
+@import "tailwindcss";
+@import "@fontsource-variable/bodoni-moda/opsz.css";
+@import "@fontsource-variable/hanken-grotesk/wght.css";
+
+/*
+ * Tokens. Light scheme is a limestone wall in daylight; dark scheme is a
+ * deep green room at dusk with warm lamp light. One palette, two times of day.
+ */
+:root {
+  --wall: #dfe2dc;
+  --wall-deep: #d3d7d0;
+  --ink: #14211b;
+  --muted: #4d5a53;
+  --accent: #1f4636;
+  --light: #fbfaf3;
+  --light-strength: 0.92;
+  --line: rgb(20 33 27 / 0.22);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --wall: #0f1a16;
+    --wall-deep: #0b1411;
+    --ink: #eceee8;
+    --muted: #a3ada6;
+    --accent: #e0b872;
+    --light: #ffc27a;
+    --light-strength: 0.26;
+    --line: rgb(236 238 232 / 0.26);
+  }
+}
+
+@theme inline {
+  --color-wall: var(--wall);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-line: var(--line);
+  --font-display: "Bodoni Moda Variable", "Bodoni 72", Didot, serif;
+  --font-sans: "Hanken Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  background: var(--wall);
+  color-scheme: light dark;
+}
+
+body {
+  background: var(--wall);
+  color: var(--ink);
+  font-family: var(--font-sans);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* ---------- The wall and the window light ---------- */
+
+.wall {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 90% at 78% 18%, transparent 40%, var(--wall-deep) 100%),
+    var(--wall);
+}
+
+/* Plaster grain. Fixed and non-interactive so it never repaints on scroll. */
+.wall::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.16;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (prefers-color-scheme: dark) {
+  .wall::after {
+    mix-blend-mode: soft-light;
+    opacity: 0.22;
+  }
+}
+
+.light {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  /* Follows the pointer a little, as if the sun moved with you. */
+  transform: translate3d(var(--px, 0px), var(--py, 0px), 0);
+  transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.light-drift {
+  position: absolute;
+  inset: 0;
+}
+
+.light-window {
+  position: absolute;
+  top: -5%;
+  right: 7%;
+  width: min(40vw, 600px);
+  height: 110%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1.15fr 1fr 1fr 1fr;
+  gap: clamp(8px, 1.1vw, 16px);
+  transform-origin: top right;
+  transform: skewX(-13deg) skewY(7deg);
+  filter: blur(clamp(3px, 0.45vw, 7px));
+  opacity: var(--light-strength);
+  mask-image: linear-gradient(to bottom, #000 35%, transparent 96%);
+}
+
+.light-window > span {
+  background: var(--light);
+}
+
+.light-window > span:nth-child(1) {
+  border-top-left-radius: 100% 86%;
+}
+
+.light-window > span:nth-child(2) {
+  border-top-right-radius: 100% 86%;
+}
+
+@media (max-width: 767px) {
+  .light-window {
+    top: -10%;
+    right: -6%;
+    width: 74vw;
+    height: 92%;
+  }
+}
+
+/* ---------- One load sequence: the sun comes out, then the words ---------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  .light-window {
+    animation: sun-out 2.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .light-drift {
+    animation: drift 46s ease-in-out 2.8s infinite alternate;
+  }
+
+  .arrive {
+    animation: arrive 1.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: calc(0.9s + var(--i, 0) * 0.16s);
+  }
+}
+
+@keyframes sun-out {
+  from {
+    opacity: 0;
+    translate: 5% -3%;
+  }
+  to {
+    opacity: var(--light-strength);
+    translate: 0 0;
+  }
+}
+
+@keyframes drift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-3.5%, 2.5%, 0);
+  }
+}
+
+@keyframes arrive {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
