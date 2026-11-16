@@ -1,9 +1,12 @@
 import { CrownSimpleIcon } from "@phosphor-icons/react/dist/ssr";
+import { preload } from "react-dom";
 import { site } from "@/config/site";
 
 const step = (i: number) => ({ "--i": i }) as React.CSSProperties;
 
 export default function ComingSoon() {
+  preload("/images/hero.webp", { as: "image", fetchPriority: "high" });
+
   return (
     <div className="hero flex min-h-[100dvh] flex-col">
       <div className="hero-photo" aria-hidden="true" />

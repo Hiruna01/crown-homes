@@ -20,5 +20,5 @@ Then open http://localhost:3000.
 
 - `src/app/page.tsx`: the coming-soon page
 - `src/app/globals.css`: colour tokens, fonts and the hero photo styles
-- `public/images/hero.jpg`: the full-screen background photograph
+- `public/images/hero.webp`: the full-screen background photograph
 - `src/config/site.ts`: company name and description

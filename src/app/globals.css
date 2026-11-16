@@ -43,24 +43,15 @@ body {
 }
 
 /*
- * The photo lives at public/images/hero.jpg. Until that file exists the
- * dusk-sky gradient underneath shows instead, so the layout still reads.
+ * The photo fills the page except for a strip at the bottom, which is the
+ * solid base colour. Anchoring the photo to the bottom of its box keeps the
+ * house clear of the text, and the shade blends the lawn into the base.
  */
 .hero-photo {
   position: absolute;
-  inset: 0;
+  inset: 0 0 12% 0;
   z-index: -2;
-  background:
-    url("/images/hero.jpg") center 62% / cover no-repeat,
-    linear-gradient(
-      to bottom,
-      #1d3552 0%,
-      #3f6289 34%,
-      #8ea5b8 58%,
-      #d8b796 70%,
-      #2a2d2a 78%,
-      #101313 100%
-    );
+  background: url("/images/hero.webp") center bottom / cover no-repeat #16294a;
 }
 
 /* Shade: a little at the top for the header, a lot at the bottom for text. */
@@ -69,14 +60,35 @@ body {
   inset: 0;
   z-index: -1;
   background:
-    linear-gradient(to bottom, rgb(12 15 16 / 0.42) 0%, transparent 22%),
+    linear-gradient(to bottom, rgb(12 15 16 / 0.38) 0%, transparent 20%),
     linear-gradient(
       to top,
       var(--base) 0%,
-      rgb(12 15 16 / 0.94) 16%,
-      rgb(12 15 16 / 0.55) 32%,
-      transparent 52%
+      var(--base) 11%,
+      rgb(12 15 16 / 0.86) 19%,
+      rgb(12 15 16 / 0.4) 30%,
+      transparent 42%
     );
+}
+
+/* On phones the text block is taller, so lift the photo further. */
+@media (max-width: 767px) {
+  .hero-photo {
+    inset: 0 0 25% 0;
+  }
+
+  .hero-shade {
+    background:
+      linear-gradient(to bottom, rgb(12 15 16 / 0.38) 0%, transparent 20%),
+      linear-gradient(
+        to top,
+        var(--base) 0%,
+        var(--base) 24%,
+        rgb(12 15 16 / 0.8) 31%,
+        rgb(12 15 16 / 0.3) 40%,
+        transparent 50%
+      );
+  }
 }
 
 .wordmark {
@@ -100,6 +112,7 @@ body {
 
 @media (prefers-reduced-motion: no-preference) {
   .hero-photo {
+    transform-origin: center bottom;
     animation: settle 3.2s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 
@@ -111,7 +124,7 @@ body {
 
 @keyframes settle {
   from {
-    transform: scale(1.07);
+    transform: scale(1.06);
   }
   to {
     transform: none;
