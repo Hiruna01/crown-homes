@@ -19,6 +19,6 @@ Then open http://localhost:3000.
 ## Where things live
 
 - `src/app/page.tsx`: the coming-soon page
-- `src/app/globals.css`: colour tokens, fonts and the window-light effect
-- `src/components/window-light.tsx`: the drifting sunlight
-- `src/config/site.ts`: company name and contact details (currently placeholders)
+- `src/app/globals.css`: colour tokens, fonts and the hero photo styles
+- `public/images/hero.jpg`: the full-screen background photograph
+- `src/config/site.ts`: company name and description

@@ -1,73 +1,53 @@
-import {
-  CrownSimpleIcon,
-  EnvelopeSimpleIcon,
-  WhatsappLogoIcon,
-} from "@phosphor-icons/react/dist/ssr";
-import { WindowLight } from "@/components/window-light";
-import { emailHref, site, whatsappHref } from "@/config/site";
+import { CrownSimpleIcon } from "@phosphor-icons/react/dist/ssr";
+import { site } from "@/config/site";
+
+const step = (i: number) => ({ "--i": i }) as React.CSSProperties;
 
 export default function ComingSoon() {
   return (
-    <div className="wall flex min-h-[100dvh] flex-col">
-      <WindowLight />
+    <div className="hero flex min-h-[100dvh] flex-col">
+      <div className="hero-photo" aria-hidden="true" />
+      <div className="hero-shade" aria-hidden="true" />
 
-      <div className="relative z-10 mx-auto flex w-full max-w-[1400px] flex-1 flex-col px-6 py-7 sm:px-10 sm:py-9 lg:px-16">
-        <header
-          className="arrive flex items-center gap-2.5"
-          style={{ "--i": 0 } as React.CSSProperties}
-        >
-          <CrownSimpleIcon size={22} weight="light" aria-hidden="true" />
-          <span className="font-display text-[1.375rem] leading-none tracking-[-0.01em]">
+      <header
+        className="arrive mx-auto flex w-full max-w-[1600px] items-center justify-between px-6 pt-6 sm:px-10 sm:pt-8 lg:px-14"
+        style={step(0)}
+      >
+        <div className="flex items-center gap-2.5">
+          <CrownSimpleIcon size={22} weight="fill" aria-hidden="true" />
+          <span className="text-lg font-medium tracking-[-0.01em]">
             {site.name}
           </span>
-        </header>
+        </div>
+        <span className="pill px-4 py-2 text-sm font-medium">Opening soon</span>
+      </header>
 
-        <main className="flex flex-1 flex-col justify-end pt-24 pb-10 sm:pb-14">
-          <h1
-            className="arrive max-w-[11ch] font-display text-[clamp(3.25rem,10.5vw,9.5rem)] leading-[0.95] font-normal tracking-[-0.035em] text-balance"
-            style={{ "--i": 1 } as React.CSSProperties}
-          >
-            The doors open soon.
-          </h1>
+      <p
+        className="arrive wordmark mt-[7dvh] text-center sm:mt-[5dvh]"
+        style={step(1)}
+        aria-hidden="true"
+      >
+        {site.name}
+      </p>
 
-          <p
-            className="arrive mt-7 max-w-[44ch] text-[1.0625rem] leading-[1.65] text-muted sm:mt-9 sm:text-lg"
-            style={{ "--i": 2 } as React.CSSProperties}
-          >
-            We are finishing the new {site.name} website. Until it opens, write
-            to us and we will help you find your next home.
-          </p>
-
-          <div
-            className="arrive mt-9 flex flex-col gap-3 sm:flex-row sm:items-center"
-            style={{ "--i": 3 } as React.CSSProperties}
-          >
-            <a
-              href={emailHref}
-              className="inline-flex h-13 items-center justify-center gap-2.5 bg-ink px-7 text-[0.9375rem] font-medium text-wall transition-[background-color,transform] duration-300 hover:bg-accent active:translate-y-px"
-            >
-              <EnvelopeSimpleIcon size={18} aria-hidden="true" />
-              Email us
-            </a>
-            <a
-              href={whatsappHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex h-13 items-center justify-center gap-2.5 border border-line px-7 text-[0.9375rem] font-medium text-ink transition-[border-color,transform] duration-300 hover:border-ink active:translate-y-px"
-            >
-              <WhatsappLogoIcon size={18} aria-hidden="true" />
-              Message on WhatsApp
-            </a>
-          </div>
-        </main>
-
-        <footer
-          className="arrive text-sm text-muted"
-          style={{ "--i": 4 } as React.CSSProperties}
+      <main className="mx-auto mt-auto grid w-full max-w-[1600px] gap-6 px-6 pb-8 sm:px-10 sm:pb-10 md:grid-cols-[1.1fr_1fr] md:items-end md:gap-16 lg:px-14 lg:pb-12">
+        <h1
+          className="arrive max-w-[14ch] text-[clamp(2rem,3.6vw,3.25rem)] leading-[1.08] font-light tracking-[-0.025em] text-balance"
+          style={step(2)}
         >
-          © 2026 {site.name}. All rights reserved.
-        </footer>
-      </div>
+          The doors open soon.
+        </h1>
+
+        <div className="arrive md:justify-self-end" style={step(3)}>
+          <p className="max-w-[42ch] text-base leading-[1.6] text-paper-soft sm:text-[1.0625rem]">
+            We are finishing the new {site.name} website, where you will soon
+            be able to explore our homes and projects.
+          </p>
+          <p className="mt-6 text-sm text-paper-soft">
+            © 2026 {site.name}. All rights reserved.
+          </p>
+        </div>
+      </main>
     </div>
   );
 }
